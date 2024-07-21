@@ -61,7 +61,7 @@ public class CategoryRepositoryTest {
         Category category = new Category(null, "차량", "brown", "www.aaa.jpg", "차량 카테고리입니다.");
         categoryRepository.save(category);
 
-        category.updateCategory(new CategoryRequest("상품권", "blue", "update.jpg", "상품권 카테고리입니다."));
+        category.updateCategory("상품권", "blue", "update.jpg", "상품권 카테고리입니다.");
 
         assertAll(
             () -> assertThat(category.getName()).isEqualTo("상품권"),

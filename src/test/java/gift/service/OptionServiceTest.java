@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 
+import gift.controller.option.dto.OptionRequest;
+import gift.controller.option.dto.OptionRequest.Create;
 import gift.model.Category;
 import gift.model.Option;
 import gift.model.Product;
@@ -36,7 +38,7 @@ public class OptionServiceTest {
         Category category = new Category(1L, "차량", "brown", "www.aaa.jpg", "차량 카테고리입니다.");
         Product product = new Product(1L, "상품1", 1000, "image1.jpg", category);
         Option option = new Option(null, "test", 5);
-        CreateOptionRequest request = new CreateOptionRequest("test", 5);
+        OptionRequest.Create request = new OptionRequest.Create("test", 5);
 
         given(productRepository.findById(1L)).willReturn(Optional.of(product));
         given(optionRepository.save(any(Option.class))).willReturn(option);

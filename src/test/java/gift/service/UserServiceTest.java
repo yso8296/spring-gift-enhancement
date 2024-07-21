@@ -3,6 +3,7 @@ package gift.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import gift.controller.user.dto.UserRequest;
 import gift.controller.user.dto.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,14 +21,12 @@ public class UserServiceTest {
     @Test
     @DisplayName("회원가입")
     void register() {
-        UserRequest userRequest = new UserRequest("yso8296", "yso8296@gmail.com");
+        UserRequest.Create userRequest = new UserRequest.Create("yso8296", "yso8296@gmail.com");
 
-        UserResponse actual = userService.register(userRequest);
+        Long id = userService.register(userRequest);
 
         assertAll(
-            () -> assertThat(actual.id()).isNotNull(),
-            () -> assertThat(actual.password()).isEqualTo("yso8296"),
-            () -> assertThat(actual.email()).isEqualTo("yso8296@gmail.com")
+            () -> assertThat(id).isNotNull()
         );
     }
 }
