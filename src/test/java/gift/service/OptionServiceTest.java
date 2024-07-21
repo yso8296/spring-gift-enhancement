@@ -6,11 +6,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 
-import gift.model.category.Category;
-import gift.model.option.CreateOptionRequest;
-import gift.model.option.CreateOptionResponse;
-import gift.model.option.Option;
-import gift.model.product.Product;
+import gift.model.Category;
+import gift.model.Option;
+import gift.model.Product;
 import gift.repository.OptionRepository;
 import gift.repository.ProductRepository;
 import java.util.Optional;

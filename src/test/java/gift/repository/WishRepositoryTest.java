@@ -3,10 +3,10 @@ package gift.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import gift.model.category.Category;
-import gift.model.product.Product;
-import gift.model.user.User;
-import gift.model.wish.Wish;
+import gift.model.Category;
+import gift.model.Product;
+import gift.model.User;
+import gift.model.Wish;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

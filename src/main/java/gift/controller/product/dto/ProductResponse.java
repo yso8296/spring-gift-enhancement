@@ -1,4 +1,6 @@
-package gift.model.product;
+package gift.controller.product.dto;
+
+import gift.model.Product;
 
 public record ProductResponse(Long id, String name, int price, String imageUrl) {
 

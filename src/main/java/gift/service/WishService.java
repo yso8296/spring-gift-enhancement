@@ -5,12 +5,11 @@ import gift.common.exception.ExistWishException;
 import gift.common.exception.ProductNotFoundException;
 import gift.common.exception.UserNotFoundException;
 import gift.common.exception.WishNotFoundException;
-import gift.model.product.Product;
-import gift.model.user.User;
-import gift.model.wish.Wish;
-import gift.model.wish.WishRequest;
-import gift.model.wish.WishResponse;
-import gift.model.wish.WishUpdateRequest;
+import gift.controller.wish.dto.WishRequest;
+import gift.model.Product;
+import gift.model.User;
+import gift.model.Wish;
+import gift.controller.wish.dto.WishResponse;
 import gift.repository.ProductRepository;
 import gift.repository.UserRepository;
 import gift.repository.WishRepository;
@@ -47,22 +46,23 @@ public class WishService {
     }
 
     @Transactional
-    public void addWistList(Long userId, WishRequest wishRequest) {
+    public Long addWistList(Long userId, WishRequest.Create request) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
-        Product product = productRepository.findById(wishRequest.productId())
+        Product product = productRepository.findById(request.productId())
             .orElseThrow(ProductNotFoundException::new);
 
         if (wishRepository.existsByProductIdAndUserId(product.getId(), userId)) {
             throw new ExistWishException();
         }
 
-        wishRepository.save(wishRequest.toEntity(user, product, wishRequest.count()));
+        Wish wish = wishRepository.save(request.toEntity(user, product, request.count()));
+        return wish.getId();
     }
 
     @Transactional
-    public void updateWishList(Long userId, Long wishId, WishUpdateRequest wishRequest) {
-        if (wishRequest.count() == 0) {
+    public void updateWishList(Long userId, Long wishId, WishRequest.Update request) {
+        if (request.count() == 0) {
             deleteWishList(userId, wishId);
             return;
         }
@@ -73,7 +73,7 @@ public class WishService {
             throw new WishNotFoundException();
         }
 
-        wish.updateWish(wishRequest.count());
+        wish.updateWish(request.count());
     }
 
     @Transactional

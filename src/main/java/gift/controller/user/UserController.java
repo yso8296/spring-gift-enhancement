@@ -1,9 +1,10 @@
-package gift.controller;
+package gift.controller.user;
 
-import gift.model.user.UserRequest;
-import gift.model.user.UserResponse;
+import gift.controller.user.dto.UserRequest;
+import gift.controller.user.dto.UserResponse;
 import gift.service.UserService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,14 +23,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest) {
-        UserResponse response = userService.register(userRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<Void> register(@Valid @RequestBody UserRequest.Create request) {
+        Long id = userService.register(request);
+        return ResponseEntity.created(URI.create("/api/v1/user/" + id)).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserRequest userRequest) {
-        String token = userService.login(userRequest);
+    public ResponseEntity<String> login(@Valid @RequestBody UserRequest.Update request) {
+        String token = userService.login(request);
         return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(token);
     }
 }

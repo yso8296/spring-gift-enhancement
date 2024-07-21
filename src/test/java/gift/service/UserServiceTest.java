@@ -3,8 +3,7 @@ package gift.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import gift.model.user.UserRequest;
-import gift.model.user.UserResponse;
+import gift.controller.user.dto.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

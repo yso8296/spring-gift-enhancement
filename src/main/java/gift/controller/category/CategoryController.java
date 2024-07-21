@@ -1,10 +1,11 @@
-package gift.controller;
+package gift.controller.category;
 
 import gift.common.dto.PageResponse;
-import gift.model.category.CategoryRequest;
-import gift.model.category.CategoryResponse;
+import gift.controller.category.dto.CategoryRequest;
+import gift.controller.category.dto.CategoryResponse;
 import gift.service.CategoryService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,9 +31,9 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CategoryResponse> registerCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
-        CategoryResponse response = categoryService.register(categoryRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<Void> registerCategory(@Valid @RequestBody CategoryRequest.Create request) {
+        Long id = categoryService.register(request);
+        return ResponseEntity.created(URI.create("/api/v1/category/" + id)).build();
     }
 
     @GetMapping("")
@@ -51,8 +52,8 @@ public class CategoryController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable("id") Long id,
-        @Valid @RequestBody CategoryRequest categoryRequest) {
-        CategoryResponse response = categoryService.updateCategory(id, categoryRequest);
+        @Valid @RequestBody CategoryRequest.Update request) {
+        CategoryResponse response = categoryService.updateCategory(id, request);
         return ResponseEntity.ok().body(response);
     }
 

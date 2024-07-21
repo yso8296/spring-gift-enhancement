@@ -1,8 +1,8 @@
-package gift.model.product;
+package gift.model;
 
 import gift.common.exception.DuplicateOptionNameException;
-import gift.model.category.Category;
-import gift.model.option.Option;
+import gift.model.Category;
+import gift.model.Option;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

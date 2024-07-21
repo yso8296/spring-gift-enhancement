@@ -2,9 +2,9 @@ package gift.service;
 
 import gift.common.dto.PageResponse;
 import gift.common.exception.CategoryNotFoundException;
-import gift.model.category.Category;
-import gift.model.category.CategoryRequest;
-import gift.model.category.CategoryResponse;
+import gift.controller.category.dto.CategoryRequest;
+import gift.model.Category;
+import gift.controller.category.dto.CategoryResponse;
 import gift.repository.CategoryRepository;
 import gift.repository.ProductRepository;
 import java.util.List;
@@ -29,9 +29,9 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryResponse register(CategoryRequest categoryRequest) {
-        Category category = categoryRepository.save(categoryRequest.toEntity());
-        return CategoryResponse.from(category);
+    public Long register(CategoryRequest.Create request) {
+        Category category = categoryRepository.save(request.toEntity());
+        return category.getId();
     }
 
     public PageResponse<CategoryResponse> findAllCategory(Pageable pageable) {
@@ -48,10 +48,11 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryResponse updateCategory(Long id, CategoryRequest categoryRequest) {
+    public CategoryResponse updateCategory(Long id, CategoryRequest.Update request) {
         Category category = categoryRepository.findById(id)
             .orElseThrow(CategoryNotFoundException::new);
-        category.updateCategory(categoryRequest);
+        category.updateCategory(request.name(), request.color(), request.imageUrl(),
+            request.description());
         return CategoryResponse.from(category);
     }
 

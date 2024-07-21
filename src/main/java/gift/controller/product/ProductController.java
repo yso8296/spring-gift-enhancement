@@ -1,12 +1,13 @@
-package gift.controller;
+package gift.controller.product;
 
 import gift.common.dto.PageResponse;
-import gift.model.product.CreateProductRequest;
-import gift.model.product.ProductResponse;
-import gift.model.product.UpdateProductRequest;
+import gift.controller.product.dto.ProductRequest;
+import gift.controller.product.dto.ProductResponse;
 import gift.service.OptionService;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import java.net.URI;
+import java.net.URL;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -34,9 +35,9 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ProductResponse> registerProduct(@Valid @RequestBody CreateProductRequest request) {
-        ProductResponse response = productService.addProduct(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<Void> registerProduct(@Valid @RequestBody ProductRequest.Create request) {
+        Long id = productService.addProduct(request);
+        return ResponseEntity.created(URI.create("/api/v1/products/" + id)).build();
     }
 
     @GetMapping("")
@@ -55,7 +56,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
-                                                         @Valid @RequestBody UpdateProductRequest request) {
+                                                         @Valid @RequestBody ProductRequest.Update request) {
         ProductResponse response = productService.updateProduct(id, request);
         return ResponseEntity.ok().body(response);
     }
@@ -65,11 +66,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
-    /*@GetMapping("/{id}/options")
-    public ResponseEntity<List<OptionResponse>> getAllOptions(@PathVariable("id") Long id) {
-        List<OptionResponse> response = optionService.getAllProductOptions(id);
-        return ResponseEntity.ok().body(response);
-    }*/
 }
 

@@ -1,4 +1,6 @@
-package gift.model.option;
+package gift.controller.option.dto;
+
+import gift.model.Option;
 
 public record OptionResponse(Long id, String name, int quantity, Long productId) {
 

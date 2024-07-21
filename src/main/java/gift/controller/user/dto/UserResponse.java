@@ -1,4 +1,6 @@
-package gift.model.user;
+package gift.controller.user.dto;
+
+import gift.model.User;
 
 public record UserResponse(Long id, String password, String email) {
 

@@ -1,4 +1,4 @@
-package gift.model.category;
+package gift.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,10 +59,10 @@ public class Category {
         return description;
     }
 
-    public void updateCategory(CategoryRequest categoryRequest) {
-        this.name = categoryRequest.name();
-        this.color = categoryRequest.color();
-        this.imageUrl = categoryRequest.imageUrl();
-        this.description = categoryRequest.description();
+    public void updateCategory(String name, String color, String imageUrl, String description) {
+        this.name = name;
+        this.color = color;
+        this.imageUrl = imageUrl;
+        this.description = description;
     }
 }

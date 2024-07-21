@@ -2,7 +2,6 @@ package gift.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.model.user.UserRequest;
 import java.net.URI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
-package gift.model.wish;
+package gift.model;
 
-import gift.model.product.Product;
-import gift.model.user.User;
+import gift.model.Product;
+import gift.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

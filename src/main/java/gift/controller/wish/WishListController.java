@@ -1,13 +1,13 @@
-package gift.controller;
+package gift.controller.wish;
 
 import gift.common.annotation.LoginUser;
 import gift.common.dto.PageResponse;
-import gift.model.user.LoginUserRequest;
-import gift.model.wish.WishRequest;
-import gift.model.wish.WishResponse;
-import gift.model.wish.WishUpdateRequest;
+import gift.common.auth.LoginInfo;
+import gift.controller.wish.dto.WishRequest;
+import gift.controller.wish.dto.WishResponse;
 import gift.service.WishService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,7 +33,7 @@ public class WishListController {
 
     @GetMapping("")
     public ResponseEntity<PageResponse<WishResponse>> getAllWishList(
-        @LoginUser LoginUserRequest user,
+        @LoginUser LoginInfo user,
         @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         PageResponse<WishResponse> responses = wishService.findAllWish(user.id(), pageable);
@@ -41,23 +41,23 @@ public class WishListController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addWishProduct(@LoginUser LoginUserRequest user,
-        @Valid @RequestBody WishRequest wishRequest) {
-        wishService.addWistList(user.id(), wishRequest);
-        return ResponseEntity.ok().body("위시리스트에 상품이 추가되었습니다.");
+    public ResponseEntity<Void> addWishProduct(@LoginUser LoginInfo user,
+        @Valid @RequestBody WishRequest.Create request) {
+        Long id = wishService.addWistList(user.id(), request);
+        return ResponseEntity.created(URI.create("/api/v1/wish/" + id)).build();
     }
 
     @PatchMapping("/{wishId}")
     public ResponseEntity<String> updateWishProduct(@PathVariable("wishId") Long wishId,
-        @LoginUser LoginUserRequest user,
-        @Valid @RequestBody WishUpdateRequest wishRequest) {
-        wishService.updateWishList(user.id(), wishId, wishRequest);
+        @LoginUser LoginInfo user,
+        @Valid @RequestBody WishRequest.Update request) {
+        wishService.updateWishList(user.id(), wishId, request);
         return ResponseEntity.ok().body("위시리스트에 상품이 수정되었습니다.");
     }
 
     @DeleteMapping("/{wishId}")
     public ResponseEntity<String> deleteWishProduct(@PathVariable("wishId") Long wishId,
-        @LoginUser LoginUserRequest user) {
+        @LoginUser LoginInfo user) {
         wishService.deleteWishList(user.id(), wishId);
         return ResponseEntity.ok().body("위시리스트에서 상품이 삭제되었습니다.");
     }

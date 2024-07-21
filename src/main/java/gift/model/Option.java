@@ -1,6 +1,5 @@
-package gift.model.option;
+package gift.model;
 
-import gift.model.product.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

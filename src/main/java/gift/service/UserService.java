@@ -3,9 +3,8 @@ package gift.service;
 import gift.common.auth.JwtTokenProvider;
 import gift.common.exception.ExistUserException;
 import gift.common.exception.UserNotFoundException;
-import gift.model.user.User;
-import gift.model.user.UserRequest;
-import gift.model.user.UserResponse;
+import gift.controller.user.dto.UserRequest;
+import gift.model.User;
 import gift.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,15 +22,15 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse register(UserRequest userRequest) {
+    public Long register(UserRequest.Create userRequest) {
         if (userRepository.existsByEmail(userRequest.email())) {
             throw new ExistUserException();
         }
         User user = userRepository.save(userRequest.toEntity());
-        return UserResponse.from(user);
+        return user.getId();
     }
 
-    public String login(UserRequest userRequest) {
+    public String login(UserRequest.Update userRequest) {
         User user = userRepository.findByEmail(userRequest.email()).orElseThrow(UserNotFoundException::new);
         return jwtTokenProvider.createToken(user.getEmail());
     }

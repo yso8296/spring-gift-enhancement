@@ -4,8 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import gift.common.exception.CategoryNotFoundException;
-import gift.model.category.Category;
-import gift.model.category.CategoryRequest;
+import gift.model.Category;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

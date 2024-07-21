@@ -1,14 +1,11 @@
-package gift.controller;
+package gift.controller.option;
 
 import gift.common.dto.PageResponse;
-import gift.model.category.CategoryRequest;
-import gift.model.category.CategoryResponse;
-import gift.model.option.CreateOptionRequest;
-import gift.model.option.CreateOptionResponse;
-import gift.model.option.OptionResponse;
-import gift.model.option.UpdateOptionRequest;
+import gift.controller.option.dto.OptionRequest;
+import gift.controller.option.dto.OptionResponse;
 import gift.service.OptionService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -34,12 +31,12 @@ public class OptionController {
     }
 
     @PostMapping("{productId}/options")
-    public ResponseEntity<CreateOptionResponse> registerOption(
+    public ResponseEntity<Void> registerOption(
         @PathVariable("productId") Long productId,
-        @Valid @RequestBody CreateOptionRequest request
+        @Valid @RequestBody OptionRequest.Create request
     ) {
-        CreateOptionResponse response = optionService.register(productId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        Long id = optionService.register(productId, request);
+        return ResponseEntity.created(URI.create("/api/v1/products/" + productId + "/options/" + id)).build();
     }
 
     @GetMapping("{productId}/options")
@@ -65,7 +62,7 @@ public class OptionController {
     public ResponseEntity<OptionResponse> updateOption(
         @PathVariable("productId") Long productId,
         @PathVariable("optionId") Long optionId,
-        @Valid @RequestBody UpdateOptionRequest request) {
+        @Valid @RequestBody OptionRequest.Update request) {
         OptionResponse response = optionService.updateOption(productId, optionId, request);
         return ResponseEntity.ok().body(response);
     }

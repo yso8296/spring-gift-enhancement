@@ -4,9 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import gift.common.exception.ProductNotFoundException;
-import gift.model.category.Category;
-import gift.model.product.Product;
-import gift.model.product.CreateProductRequest;
+import gift.model.Category;
+import gift.model.Product;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

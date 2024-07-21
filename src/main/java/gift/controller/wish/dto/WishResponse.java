@@ -1,4 +1,6 @@
-package gift.model.wish;
+package gift.controller.wish.dto;
+
+import gift.model.Wish;
 
 public record WishResponse(Long wishId, Long productId, String productName, int price,
                            String imageUrl, int count) {

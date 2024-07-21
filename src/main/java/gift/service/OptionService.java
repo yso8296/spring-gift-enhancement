@@ -1,18 +1,12 @@
 package gift.service;
 
 import gift.common.dto.PageResponse;
-import gift.common.exception.CategoryNotFoundException;
 import gift.common.exception.OptionNotFoundException;
 import gift.common.exception.ProductNotFoundException;
-import gift.model.category.Category;
-import gift.model.category.CategoryRequest;
-import gift.model.category.CategoryResponse;
-import gift.model.option.CreateOptionRequest;
-import gift.model.option.CreateOptionResponse;
-import gift.model.option.Option;
-import gift.model.option.OptionResponse;
-import gift.model.option.UpdateOptionRequest;
-import gift.model.product.Product;
+import gift.controller.option.dto.OptionRequest;
+import gift.model.Option;
+import gift.controller.option.dto.OptionResponse;
+import gift.model.Product;
 import gift.repository.OptionRepository;
 import gift.repository.ProductRepository;
 import java.util.List;
@@ -34,7 +28,7 @@ public class OptionService {
     }
 
     @Transactional
-    public CreateOptionResponse register(Long productId, CreateOptionRequest request) {
+    public Long register(Long productId, OptionRequest.Create request) {
         Product product = productRepository.findById(productId)
             .orElseThrow(ProductNotFoundException::new);
         product.checkDuplicateName(request.name());
@@ -43,7 +37,7 @@ public class OptionService {
         product.addOption(option);
         optionRepository.save(option);
 
-        return CreateOptionResponse.from(option);
+        return option.getId();
     }
 
     public PageResponse<OptionResponse> getAllProductOptions(Long productId, Pageable pageable) {
@@ -58,7 +52,7 @@ public class OptionService {
     }
 
     @Transactional
-    public OptionResponse updateOption(Long productId, Long optionId, UpdateOptionRequest request) {
+    public OptionResponse updateOption(Long productId, Long optionId, OptionRequest.Update request) {
         Option option = optionRepository.findById(optionId).orElseThrow(OptionNotFoundException::new);
         Product product = option.getProduct();
         product.checkDuplicateName(request.name());

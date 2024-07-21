@@ -2,8 +2,7 @@ package gift.common.auth;
 
 import gift.common.annotation.LoginUser;
 import gift.common.exception.UserNotFoundException;
-import gift.model.user.LoginUserRequest;
-import gift.model.user.User;
+import gift.model.User;
 import gift.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
@@ -36,6 +35,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         String token = request.getHeader("Authorization").substring(7);
         String email = jwtTokenProvider.extractEmail(token);
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
-        return new LoginUserRequest(user.getId(), user.getPassword(), user.getEmail());
+        return new LoginInfo(user.getId(), user.getPassword(), user.getEmail());
     }
 }
